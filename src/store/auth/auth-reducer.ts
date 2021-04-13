@@ -1,17 +1,15 @@
-import produce from "immer";
-import { Reducer } from "redux";
+import { User } from "../../models/user.inteface";
+import { ReducerBuilder } from "../../utils/redux/reducer-builder";
 import { AuthActionTypes, AuthState, INITIAL_STATE } from "./auth-types";
 
-const authReducer: Reducer<AuthState> = (state = INITIAL_STATE, { type, payload }) => {
-    switch (type) {
-        case AuthActionTypes.LOGIN:
-            return produce(state, response => {
-                response.authenticated = true;
-            });
+const reduxBuilder = new ReducerBuilder<AuthState>(INITIAL_STATE);
 
-        default:
-            return state;
-    }
-}
+reduxBuilder.addReducer<User>(AuthActionTypes.LOGIN, (state, payload) => {
+    return { ...state, authenticated: true };
+});
 
-export default authReducer;
+// reduxBuilder.addMutableReducer<User>(AuthActionTypes.LOGIN, (state, payload) => {
+//     state.authenticated = !!payload;
+// });
+
+export default reduxBuilder.build();
