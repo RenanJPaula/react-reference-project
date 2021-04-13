@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
+import DefaultLayout from '../layouts/default-layout/default-layout';
 
 export interface PrivateRouteProps extends RouteProps {
     layout?: React.FC;
@@ -7,8 +8,8 @@ export interface PrivateRouteProps extends RouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ layout, ...props }) => {
     const isAuthenticated = true;
-    const SelectdLayout = layout || Fragment;
-    
+    const SelectdLayout = layout || DefaultLayout;
+
     if (!isAuthenticated) {
         return (<Redirect to="/" />)
     }
